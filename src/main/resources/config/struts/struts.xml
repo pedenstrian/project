@@ -1,0 +1,28 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <include file="struts-default.xml"/>
+    <package name="user" namespace="/" extends="struts-default">
+        <interceptors>
+            <interceptor name="longinInterceptor" class="com.lanou3g.interceptors.LoginInterceptor"/>
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="longinInterceptor">
+                    <param name="excludeMethods">login</param>
+                </interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="myStack"/>
+        <global-results>
+            <result name="login">/login.htm</result>
+            <result name="success">/index.htm</result>
+        </global-results>
+        <global-allowed-methods>regex:.*</global-allowed-methods>
+        <action name="customer_*" class="com.lanou3g.action.CustomerAction" method="{1}">
+            <result name="listCustomer">/jsp/customer/list.jsp</result>
+        </action>
+        <action name="user_*" class="com.lanou3g.action.UserAction" method="{1}">
+        </action>
+    </package>
+</struts>
